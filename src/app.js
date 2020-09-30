@@ -9,16 +9,19 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StatusBar,
-  Text
+  StatusBar
 } from 'react-native';
+
+import HomeSection from './components/home-section';
+import styles from './styles'
+
 
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Text>TODO LIST</Text>
+      <SafeAreaView style={styles.app}>
+        <HomeSection />
       </SafeAreaView>
     </>
   );
