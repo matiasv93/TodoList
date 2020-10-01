@@ -1,20 +1,11 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
+import React, {useContext} from 'react';
+import {View, Text, FlatList} from 'react-native';
 import styles from './styles';
+import {TodoContext} from '../../hooks';
+import TodoForm from '../todo-form';
 
 const HomeSection = () => {
-  const todoList = [{
-    id: '449f00ad-3fe3-4c7d-ad7a-8d637dc7b27d',
-    text: 'todo 1',
-    completed: false,
-  },
-  {
-    id: '449f00ad-3fe3-4c7d-ad7a-8d637dc7b272',
-    text: 'todo 2',
-    completed: false,
-  }];
-
-  const handleAddToDo = () => {};
+  const {todoList, addTodo} = useContext(TodoContext);
 
   return (
     <View style={styles.container}>
@@ -23,6 +14,7 @@ const HomeSection = () => {
           Todo List
         </Text>
       </View>
+      <TodoForm addTodo={addTodo} />
       <View style={styles.listContainer}>
         <FlatList
           data={todoList}
