@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  Keyboard,
 } from 'react-native';
 import styles from './styles';
 import {generateId} from '../../helpers';
@@ -21,6 +22,7 @@ const TodoForm = (props) => {
       completed: false,
     });
     setTodo('')
+    Keyboard.dismiss();
   };
 
   const handleTodoChange = (value) => {

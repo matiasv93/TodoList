@@ -1,9 +1,10 @@
 import React, {useContext, useCallback} from 'react';
-import {View, Text, FlatList, Keyboard} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
 import {TodoContext} from '../../hooks';
 import TodoForm from '../todo-form';
+import deleteIcon from '../../../assets/icons/delete.png';
 
 const HomeSection = () => {
   const {todoList, addTodo, updateTodo} = useContext(TodoContext);
@@ -13,7 +14,14 @@ const HomeSection = () => {
       let newlist = [...todoList];
       newlist[todoIndex].completed = !todoList[todoIndex].completed;
       updateTodo(newlist);
-      Keyboard.dismiss();
+    },
+    [todoList, updateTodo],
+  );
+
+  const handleDeleteTodo = useCallback(
+    (todoId) => {
+      const newlist = todoList.filter((item) => item.id !== todoId);
+      updateTodo(newlist);
     },
     [todoList, updateTodo],
   );
@@ -22,25 +30,24 @@ const HomeSection = () => {
     (data) => {
       return (
         <View style={styles.todoContainer}>
-          <CheckBox
-            style={styles.checkbox}
-            boxType={'square'}
-            value={data.item.completed}
-            disabled={false}
-            onValueChange={() => handleCheckBoxChange(data.index)}
-          />
-          {data.item.completed
-            ? (
-              <Text style={[styles.todoText]}>{data.item.text}</Text>
-            ) : (
-              <Text style={[styles.todoText, styles.todoTextCompleted]}>
-                {data.item.text}
-              </Text>
-          )}
-
-          {/* <TouchableOpacity onPress={() => onDeleteTask(data.index)}>
+          <View style={styles.infoContainer}>
+            <CheckBox
+              style={styles.checkbox}
+              boxType={'square'}
+              value={data.item.completed}
+              disabled={false}
+              onValueChange={() => handleCheckBoxChange(data.index)}
+            />
+            <Text style={[styles.todoText, data.item.completed && styles.todoTextCompleted]}>
+              {data.item.text}
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => handleDeleteTodo(data.item.id)}
+            style={styles.deleteContainer}
+          >
             <Image style={styles.deleteIcon} source={deleteIcon} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       );
     },

@@ -36,8 +36,6 @@ const TodoContextProvider: React.FC = ({children}) => {
         todoList,
         addTodo,
         updateTodo,
-        // deleteTodo,
-        // editTodo,
       }}>
       {children}
     </TodoContext.Provider>
