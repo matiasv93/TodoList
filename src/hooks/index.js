@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const TodoContext = createContext({});
 
 const TodoContextProvider: React.FC = ({children}) => {
-  const [todoList, changeTodoList] = useState([]);
+  const [todoList, updateTodoList] = useState([]);
 
   const saveOnAsyncStorage = useCallback(async (list) => {
     try {
@@ -17,9 +17,17 @@ const TodoContextProvider: React.FC = ({children}) => {
   const addTodo = useCallback(
     (newTodo) => {
       saveOnAsyncStorage([newTodo, ...todoList]);
-      changeTodoList([newTodo, ...todoList]);
+      updateTodoList([newTodo, ...todoList]);
     },
-    [todoList, changeTodoList, saveOnAsyncStorage],
+    [todoList, updateTodoList, saveOnAsyncStorage],
+  );
+
+  const updateTodo = useCallback(
+    (updatedList) => {
+      updateTodoList(updatedList);
+      saveOnAsyncStorage(updatedList);
+    },
+    [todoList, updateTodoList, saveOnAsyncStorage],
   );
 
   return (
@@ -27,7 +35,7 @@ const TodoContextProvider: React.FC = ({children}) => {
       value={{
         todoList,
         addTodo,
-        // changeTodoStatus,
+        updateTodo,
         // deleteTodo,
         // editTodo,
       }}>
