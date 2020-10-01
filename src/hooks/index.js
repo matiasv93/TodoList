@@ -14,6 +14,18 @@ const TodoContextProvider: React.FC = ({children}) => {
     }
   }, []);
 
+  const getOnAsyncStorage = useCallback(async () => {
+    try {
+      const storedTodoList = await AsyncStorage.getItem('@todo_list');
+
+      if (storedTodoList) {
+        updateTodoList(JSON.parse(storedTodoList));
+      }
+    } catch (e) {
+      alert('Failed to get the data');
+    }
+  }, []);
+
   const addTodo = useCallback(
     (newTodo) => {
       saveOnAsyncStorage([newTodo, ...todoList]);
@@ -36,6 +48,7 @@ const TodoContextProvider: React.FC = ({children}) => {
         todoList,
         addTodo,
         updateTodo,
+        getOnAsyncStorage,
       }}>
       {children}
     </TodoContext.Provider>

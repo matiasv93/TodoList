@@ -1,4 +1,4 @@
-import React, {useContext, useCallback} from 'react';
+import React, {useContext, useCallback, useEffect} from 'react';
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
@@ -7,7 +7,11 @@ import TodoForm from '../todo-form';
 import deleteIcon from '../../../assets/icons/delete.png';
 
 const HomeSection = () => {
-  const {todoList, addTodo, updateTodo} = useContext(TodoContext);
+  const {todoList, addTodo, updateTodo, getOnAsyncStorage} = useContext(TodoContext);
+
+  useEffect(() => {
+    getOnAsyncStorage();
+  }, [getOnAsyncStorage]);
 
   const handleCheckBoxChange = useCallback(
     (todoIndex) => {
